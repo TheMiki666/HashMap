@@ -15,3 +15,11 @@ map.set("Tony", "Ironman")
 puts map.total_entries
 p map.buckets
 
+map.set("Bruce", "Hulk")
+puts map.total_entries
+p map.buckets
+
+puts map.get ("Ororo")
+puts map.get ("Logan")
+puts map.get ("Kevin")
+puts map.get ("Bruce")

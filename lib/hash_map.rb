@@ -1,6 +1,6 @@
 class HashMap 
   PRIME_NUMBER = 31
-  DEFAULT_CAPACITY = 16
+  INITIAL_CAPACITY = 16
   DEFAULT_LOAD_FACTOR = 0.75
   
   attr_reader :total_entries
@@ -32,9 +32,19 @@ class HashMap
       end
     end
 
+    def find(key)
+      if @key == key
+        @value
+      elsif @next_node.nil?
+        nil
+      else
+        @next_node.find(key)
+      end
+    end
+
   end # of class Node
 
-  def initialize (cap = DEFAULT_CAPACITY, lf = DEFAULT_LOAD_FACTOR)
+  def initialize (cap = INITIAL_CAPACITY, lf = DEFAULT_LOAD_FACTOR)
     @capacity = cap
     @load_factor = lf
     @buckets = Array.new(cap, nil)
@@ -63,15 +73,23 @@ class HashMap
     end
   end
 
+  def get(key)
+    index = hash(key) % @capacity
+    if @buckets[index].nil?
+      nil
+    else
+      @buckets[index].find(key)
+    end
+  end
+
   private
 
   def time_to_change_capacity?
-    #Implement
-    return false
+    @total_entries > @load_factor * @capacity
   end
 
   def change_capacity
-    # Empty for the moment
+    puts "Hora de crecer"
   end
 
 end
