@@ -2,8 +2,6 @@ class HashMap
   PRIME_NUMBER = 31
   INITIAL_CAPACITY = 16
   DEFAULT_LOAD_FACTOR = 0.75
-  
-  attr_reader :total_entries
 
   #TODO: DELETE THIS
   attr_reader :buckets
@@ -80,6 +78,21 @@ class HashMap
     else
       @buckets[index].find(key)
     end
+  end
+
+  def has?(key)
+    return !get(key).nil?
+  end
+
+  def length
+    @total_entries
+  end
+
+  def clear
+    @total_entries = 0
+    @buckets.each_with_index {|x,i| @buckets[i]=nil}
+    change_capacity if time_to_change_capacity?
+    #And call to the garbage collector, please!
   end
 
   private
