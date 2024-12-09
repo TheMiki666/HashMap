@@ -36,6 +36,27 @@ p map.keys
 p map.values
 p map.entries
 
+puts "------"
+p map.remove("Clark")
+puts map.length
+puts map.has?("Clark")
+p map.buckets # Delete and change attr_reader
+puts "------"
+p map.remove("Diana")
+puts map.length
+puts map.has?("Diana")
+p map.buckets # Delete and change attr_reader
+puts "------"
+p map.remove("Steve")
+puts map.length
+puts map.has?("Steve")
+p map.buckets # Delete and change attr_reader
+puts "------"
+p map.remove("Dick")
+puts map.length
+puts map.has?("Dick")
+p map.buckets # Delete and change attr_reader
+puts "------"
 
 map.clear
 puts map.length

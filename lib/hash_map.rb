@@ -1,6 +1,6 @@
 class HashMap 
   PRIME_NUMBER = 31
-  INITIAL_CAPACITY = 16
+  INITIAL_CAPACITY = 4
   DEFAULT_LOAD_FACTOR = 0.75
 
   #TODO: DELETE THIS
@@ -58,13 +58,29 @@ class HashMap
       response
     end
 
+    # If you get in this method, the node must have a children (@next_node)
+    # Returns true if the children is deleted
+    def try_to_erase_children(key)
+      if @next_node.key == key
+        @next_node=@next_node.next_node
+        true
+      else
+        if @next_node.next_node.nil?
+          # End of searching
+          false
+        else
+          @next_node.try_to_erase_children(key)
+        end
+      end
+      
+    end
+
   end # of class Node
 
   def initialize (cap = INITIAL_CAPACITY, lf = DEFAULT_LOAD_FACTOR)
     @capacity = cap
     @load_factor = lf
-    @buckets = Array.new(cap, nil)
-    @total_entries = 0
+    clear_buckets
   end
 
   def hash(key)
@@ -73,20 +89,9 @@ class HashMap
     hash_code
   end
 
+  #Set is really a wrap of add; is the add method, but when called by user
   def set(key, value)
-    new_node = Node.new(key, value)
-    index = hash(key) % @capacity
-    if @buckets[index].nil?
-      @total_entries += 1
-      @buckets[index] = new_node
-      change_capacity if time_to_change_capacity?
-    else
-      #Collision
-      if @buckets[index].append(new_node)
-        @total_entries += 1
-        change_capacity if time_to_change_capacity?
-      end
-    end
+    add(key, value)
   end
 
   def get(key)
@@ -107,10 +112,8 @@ class HashMap
   end
 
   def clear
-    @total_entries = 0
-    @buckets.each_with_index {|x,i| @buckets[i]=nil}
-    change_capacity if time_to_change_capacity?
-    #And call to the garbage collector, please!
+    @capacity = INITIAL_CAPACITY
+    clear_buckets
   end
 
   def keys
@@ -143,14 +146,70 @@ class HashMap
     response
   end
 
+  # Returns true if the node exists and it's removed
+  def remove(key)
+    deleted = false
+    index = hash(key) % @capacity
+    if !@buckets[index].nil?
+      if @buckets[index].key == key
+        #Found
+        deleted = true
+        @buckets[index] = @buckets[index].next_node
+      else
+        #Not found
+        if !@buckets[index].next_node.nil?
+          deleted = @buckets[index].try_to_erase_children(key)
+        end #else do nothing (end of searching)
+      end
+    end
+    if deleted
+      @total_entries -= 1
+      change_capacity if time_to_change_capacity?
+    end
+    deleted
+  end
+
   private
+
+  def clear_buckets
+    @buckets = Array.new(@capacity, nil)
+    @total_entries = 0
+  end
 
   def time_to_change_capacity?
     @total_entries > @load_factor * @capacity
   end
 
   def change_capacity
-    puts "Hora de crecer"
+    @capacity = 1
+    while (@total_entries > @load_factor * @capacity || @total_entries < @load_factor * @capacity/2)
+      @capacity *= 2
+    end
+    @capacity = INITIAL_CAPACITY if @capacity < INITIAL_CAPACITY || @total_entries <= @load_factor * INITIAL_CAPACITY 
+    p "Nueva capacidad: #{@capacity}"
+    # Replacing the nodes
+    temporal_array = entries
+    clear_buckets
+    temporal_array.each {|node| add(node[0], node[1], true)}
+    p @buckets
+  end
+
+  #This is the true method set
+  #I'ts private to avoid an infinite recursive loop when dumping
+  def add(key, value, dumping=false)
+    new_node = Node.new(key, value)
+    index = hash(key) % @capacity
+    if @buckets[index].nil?
+      @total_entries += 1
+      @buckets[index] = new_node
+      change_capacity if !dumping && time_to_change_capacity?
+    else
+      #Collision
+      if @buckets[index].append(new_node)
+        @total_entries += 1
+        change_capacity if !dumping && time_to_change_capacity?
+      end
+    end
   end
 
 end
