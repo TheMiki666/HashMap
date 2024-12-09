@@ -40,6 +40,24 @@ class HashMap
       end
     end
 
+    def collect_keys(response)
+      response << @key
+      @next_node.collect_keys(response) if !@next_node.nil?
+      response
+    end
+
+    def collect_values(response)
+      response << @value
+      @next_node.collect_values(response) if !@next_node.nil?
+      response
+    end
+
+    def collect_entries(response)
+      response << [@key,@value]
+      @next_node.collect_entries(response) if !@next_node.nil?
+      response
+    end
+
   end # of class Node
 
   def initialize (cap = INITIAL_CAPACITY, lf = DEFAULT_LOAD_FACTOR)
@@ -93,6 +111,36 @@ class HashMap
     @buckets.each_with_index {|x,i| @buckets[i]=nil}
     change_capacity if time_to_change_capacity?
     #And call to the garbage collector, please!
+  end
+
+  def keys
+    response=[]
+    @buckets.each do |bucket| 
+      if !bucket.nil?
+        bucket.collect_keys(response)
+      end
+    end
+    response
+  end
+
+  def values
+    response=[]
+    @buckets.each do |bucket| 
+      if !bucket.nil?
+        bucket.collect_values(response)
+      end
+    end
+    response
+  end
+
+  def entries
+    response=[]
+    @buckets.each do |bucket| 
+      if !bucket.nil?
+        bucket.collect_entries(response)
+      end
+    end
+    response
   end
 
   private

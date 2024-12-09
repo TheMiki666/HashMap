@@ -16,6 +16,7 @@ puts map.length
 p map.buckets # Delete and change attr_reader
 
 map.set("Bruce", "Hulk")
+map.set("Pepper", "Ironman")
 puts map.length
 p map.buckets # Delete and change attr_reader
 
@@ -31,10 +32,16 @@ map.set("Peter", "Spiderman")
 puts map.has?("Peter")
 puts map.length
 
-
+p map.keys
+p map.values
+p map.entries
 
 
 map.clear
 puts map.length
 puts map.has?("Logan")
 p map.buckets # Delete and change attr_reader
+
+p map.keys
+p map.values
+p map.entries
