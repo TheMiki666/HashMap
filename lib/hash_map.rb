@@ -1,10 +1,9 @@
 class HashMap 
   PRIME_NUMBER = 31
   INITIAL_CAPACITY = 4
-  DEFAULT_LOAD_FACTOR = 0.75
+  DEFAULT_LOAD_FACTOR = 0.75 #Change between 0.75 - 1.0
 
-  #TODO: DELETE THIS
-  attr_reader :buckets
+  attr_reader :capacity
 
   class Node
     attr_reader :key, :value
@@ -177,21 +176,23 @@ class HashMap
   end
 
   def time_to_change_capacity?
-    @total_entries > @load_factor * @capacity
+    (@total_entries > @load_factor * @capacity || @total_entries < @load_factor * @capacity/2)  
   end
 
   def change_capacity
-    @capacity = 1
-    while (@total_entries > @load_factor * @capacity || @total_entries < @load_factor * @capacity/2)
-      @capacity *= 2
-    end
+    @capacity = 2 ** (Math.log2(@total_entries/@load_factor).floor + 1) if @total_entries > 0
     @capacity = INITIAL_CAPACITY if @capacity < INITIAL_CAPACITY || @total_entries <= @load_factor * INITIAL_CAPACITY 
-    p "Nueva capacidad: #{@capacity}"
+
+    # Uncomment the next line to test de growing and shrinking capacity
+    # p "New capacity: #{@capacity}"
+    
     # Replacing the nodes
     temporal_array = entries
     clear_buckets
     temporal_array.each {|node| add(node[0], node[1], true)}
-    p @buckets
+
+    # Uncomment the next line to test how the nodes relocate in the map
+    # p @buckets
   end
 
   #This is the true method set

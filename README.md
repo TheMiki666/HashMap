@@ -43,6 +43,17 @@ Remember to grow your buckets size when it needs to, by calculating if your buck
 
 #entries returns an array that contains each key, value pair. Example: [[first_key, first_value], [second_key, second_value]]
 
-#EXTRA CREDIT:
+# TESTING
+
+The HashMap class is tested in three different ways on main.rb file:
+* Test 1: checking the capacity growing and shrinking
+* You have to uncomment the lines 187 and 195 of the HashMap#change_capacity method if you want to play this test properly
+* Test 2: tests the functionality (but in may own way)
+* I've been creating this test while building the methods
+* Test 3: tests the functionality in the way stablished in the assignment of the lesson
+
+# EXTRA CREDIT:
 
 Create a class HashSet that behaves the same as a HashMap but only contains keys with no values.
+
+This HasSet is going to be tested on main2.rb file
