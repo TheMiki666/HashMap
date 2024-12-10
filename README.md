@@ -45,7 +45,7 @@ Remember to grow your buckets size when it needs to, by calculating if your buck
 
 # TESTING
 
-The HashMap class is tested in three different ways on main.rb file:
+The HashMap class is tested in three different ways in main.rb file:
 * Test 1: checking the capacity growing and shrinking
 * You have to uncomment the lines 187 and 195 of the HashMap#change_capacity method if you want to play this test properly
 * Test 2: tests the functionality (but in may own way)
@@ -56,4 +56,23 @@ The HashMap class is tested in three different ways on main.rb file:
 
 Create a class HashSet that behaves the same as a HashMap but only contains keys with no values.
 
-This HasSet is going to be tested on main2.rb file
+Propeperties of a HasSet:
+- Nodes have key, but not value
+- Does not allow duplicates
+- Nodes not ordered
+- Nodes not indexed
+- General operativity similar to HashMap (based on a vertical array of horizontal liked_lists)
+
+Fistly, we copy Hashmap in bulk; after that, we will change all the functionalities
+
+# TESTING
+
+The HashMap class is tested in two different ways in main2.rb file:
+ * Test 1: checking the capacity growing and shrinking
+ * You have to uncomment the lines 153 and 161 of the HashSet#change_capacity method if you want to play this test properly
+
+ * Test 2: tests the functionality in the way stablished in the assignment of the lesson
+
+
+
+

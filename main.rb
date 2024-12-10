@@ -133,6 +133,7 @@ p test.entries
 puts "-----------------"
 puts "Other functionalities"
 p test.get('hat')
+p test.get('wolf')
 p test.has?('grape')
 p test.has?('house')
 test.remove('frog')
