@@ -67,7 +67,7 @@ Fistly, we copy Hashmap in bulk; after that, we will change all the functionalit
 
 # TESTING
 
-The HashMap class is tested in two different ways in main2.rb file:
+The HashSet class is tested in two different ways in main2.rb file:
  * Test 1: checking the capacity growing and shrinking
  * You have to uncomment the lines 153 and 161 of the HashSet#change_capacity method if you want to play this test properly
 
